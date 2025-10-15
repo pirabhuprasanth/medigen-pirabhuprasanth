@@ -4,284 +4,113 @@ A modern pharmaceutical e-commerce platform with Flask API backend and React fro
 
 ## 📚 Documentation
 
-- **[Backend API Documentation](backend/docs.html)** - Complete API reference with all endpoints, request/response examples, and integration guides
-- **[Frontend Integration Guide](frontend/docs.html)** - React component examples, API service layer, authentication flow, and best practices
+For complete API documentation, integration guides, setup instructions, and examples:
 
-## 🏗️ Architecture Overview
+**[→ View Complete Documentation](docs-index.html)**
 
-- **Backend**: Flask API with SQLAlchemy ORM, JWT authentication, MySQL database
-- **Frontend**: React.js with modern UI components, routing, and authentication
-- **Database**: Normalized MySQL schema with 11+ tables for comprehensive product management
-- **Authentication**: JWT-based authentication with refresh tokens
+Open `docs-index.html` in your browser to access:
+- Backend API Documentation (all endpoints with examples)
+- Frontend Integration Guide (React components and patterns)
+- Quick Start Guide with setup commands
+- Test credentials and authentication details
+- Technology stack overview
 
-## 📋 Prerequisites
+## � Project Structure
 
-- Python 3.8 or higher
-- Node.js 14 or higher
-- MySQL 8.0 or higher
-- npm or yarn package manager
-
-## 🛠️ Project Setup
-
-### 1. Clone and Navigate
-```bash
-git clone [your-repo-url]
-cd medigen-interview
+```
+medigen-interview/
+│
+├── backend/                      # Flask REST API Backend
+│   ├── app/
+│   │   ├── __init__.py          # Flask app initialization
+│   │   ├── models.py            # SQLAlchemy database models
+│   │   └── routes.py            # API endpoint definitions
+│   │
+│   ├── config.py                # Configuration settings
+│   ├── run.py                   # Application entry point
+│   ├── seed.py                  # Database seeding script
+│   ├── requirements.txt         # Python dependencies
+│   └── docs.html               # Backend API documentation
+│
+├── frontend/                     # React Frontend Application
+│   ├── public/
+│   │   ├── index.html           # HTML template
+│   │   └── manifest.json        # PWA configuration
+│   │
+│   ├── src/
+│   │   ├── components/          # React components
+│   │   │   ├── Auth/
+│   │   │   │   ├── Login.js     # Login component
+│   │   │   │   └── Login.css    # Login styles
+│   │   │   │
+│   │   │   ├── product/
+│   │   │   │   ├── ProductInfo.js    # Product details
+│   │   │   │   └── Substitutes.js    # Product alternatives
+│   │   │   │
+│   │   │   ├── ProductPage.js   # Main product page
+│   │   │   └── ProductPage.css  # Product page styles
+│   │   │
+│   │   ├── services/
+│   │   │   └── api.js           # API service layer
+│   │   │
+│   │   ├── App.js               # Root component & routing
+│   │   ├── App.css              # Global application styles
+│   │   ├── index.js             # React DOM entry point
+│   │   └── index.css            # Global CSS
+│   │
+│   ├── package.json             # Node dependencies
+│   └── docs.html               # Frontend integration guide
+│
+└── docs-index.html              # Documentation hub (START HERE)
 ```
 
-### 2. Database Setup
+## 🗄️ Database Structure
 
-#### Install MySQL
-- Windows: Download from [MySQL Official Site](https://dev.mysql.com/downloads/mysql/)
-- macOS: `brew install mysql`
-- Linux: `sudo apt-get install mysql-server`
+The application uses MySQL with 11 normalized tables:
 
-#### Create Database
-```sql
--- Login to MySQL as root
-mysql -u root -p
-
--- Create database and user
-CREATE DATABASE medigen_db;
-CREATE USER 'medigen_user'@'localhost' IDENTIFIED BY 'medigen_password';
-GRANT ALL PRIVILEGES ON medigen_db.* TO 'medigen_user'@'localhost';
-FLUSH PRIVILEGES;
-EXIT;
-```
-
-### 3. Backend Setup
-
-```bash
-cd backend
-
-# Create virtual environment
-python -m venv venv
-
-# Activate virtual environment
-# Windows:
-venv\Scripts\activate
-# macOS/Linux:
-source venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Set environment variables (create .env file)
-echo "FLASK_ENV=development" > .env
-echo "DATABASE_URL=mysql://medigen_user:medigen_password@localhost/medigen_db" >> .env
-echo "JWT_SECRET_KEY=your-super-secret-jwt-key-change-this-in-production" >> .env
-
-# Initialize database and seed data
-python seed.py
-
-# Run Flask server
-python run.py
-```
-
-Backend will be available at: `http://localhost:5000`
-
-### 4. Frontend Setup
-
-```bash
-cd frontend
-
-# Install dependencies
-npm install
-
-# Start React development server
-npm start
-```
-
-Frontend will be available at: `http://localhost:3000`
-
-## 🔐 Demo Accounts
-
-### Admin User
-- **Email**: admin@medigen.com
-- **Password**: admin123
-- **Role**: Administrator
-
-### Regular Users
-- **Email**: doctor@medigen.com
-- **Password**: doctor123
-- **Role**: Doctor
-
-- **Email**: patient@medigen.com
-- **Password**: patient123
-- **Role**: Patient
-
-## 🌟 Features
-
-### Backend API Features
-- **Authentication**
-  - JWT-based login/logout with refresh tokens
-  - User registration and profile management
-  - Role-based access control
-
-- **Product Management**
-  - Comprehensive product catalog with detailed information
-  - Salt composition tracking
-  - Manufacturer and category management
-  - Product search and filtering
-
-- **Review System**
-  - User reviews and ratings
-  - Review aggregation and statistics
-
-- **Order Management**
-  - Order creation and tracking
-  - Order history for users
-
-### Frontend Features
-- **Modern UI**
-  - Professional pharmaceutical e-commerce design
-  - Responsive layout for all devices
-  - Gradient backgrounds and smooth animations
-
-- **Authentication**
-  - Secure login with error handling
-  - Demo account quick access
-  - Automatic token management
-
-- **Navigation**
-  - React Router for seamless navigation
-  - Protected routes for authenticated users
-  - User-friendly logout functionality
-
-## 📚 API Endpoints
-
-### Authentication
-- `POST /api/login` - User login
-- `POST /api/register` - User registration  
-- `POST /api/logout` - User logout
-- `POST /api/refresh` - Refresh JWT token
-- `GET /api/profile` - Get user profile
-
-### Products
-- `GET /api/products` - Get all products (paginated)
-- `GET /api/product/{id}` - Get specific product details
-- `GET /api/search?q={query}` - Search products
-- `GET /api/categories` - Get all categories
-- `GET /api/manufacturers` - Get all manufacturers
-
-### Reviews
-- `GET /api/product/{id}/reviews` - Get product reviews
-- `POST /api/product/{id}/reviews` - Add product review
-
-### Orders
-- `GET /api/orders` - Get user orders
-- `POST /api/orders` - Create new order
-
-## 🗄️ Database Schema
-
-### Core Tables
-- **users** - User accounts and authentication
+### Core Entities
+- **users** - User accounts with bcrypt-hashed passwords
+- **products** - Main product catalog with details
 - **manufacturers** - Pharmaceutical companies
-- **categories** - Product categories
-- **products** - Main product information
+- **categories** - Product categorization
 - **salts** - Active pharmaceutical ingredients
-- **product_salts** - Many-to-many relationship for product compositions
-- **substitutes** - Alternative medicines
+
+### Relationships
+- **product_salts** - Many-to-many: Products ↔ Salts
+- **substitutes** - Product alternatives
 - **faqs** - Product frequently asked questions
-- **reviews** - User reviews and ratings
+- **reviews** - User reviews with ratings
 - **orders** - Order information
 - **order_items** - Order line items
 
-## 🛡️ Security Features
+## 🎯 Key Features
 
-- **JWT Authentication** with secure token handling
-- **Password Hashing** using bcrypt
-- **CORS Protection** configured for frontend integration
-- **SQL Injection Protection** through SQLAlchemy ORM
-- **Input Validation** on all API endpoints
+### Backend (Flask)
+- RESTful API with 15+ endpoints
+- JWT authentication with refresh tokens
+- SQLAlchemy ORM with normalized schema
+- CORS enabled for frontend integration
+- Comprehensive error handling
 
-## 🧪 Testing
+### Frontend (React)
+- Modern component-based architecture
+- React Router for client-side routing
+- API service layer for clean separation
+- JWT token management
+- Responsive design with gradients
 
-### Backend Testing
-```bash
-cd backend
-python -m pytest tests/
-```
+## 🚀 Quick Start
 
-### Frontend Testing
-```bash
-cd frontend
-npm test
-```
+1. **View Documentation**: Open `docs-index.html` in your browser
+2. **Setup Database**: Create MySQL database `medigen_db`
+3. **Backend**: Navigate to `backend/`, activate venv, run `python seed.py` then `python run.py`
+4. **Frontend**: Navigate to `frontend/`, run `npm install` then `npm start`
+5. **Login**: Use test credentials from documentation
 
-## 🚀 Production Deployment
+## � Test Credentials
 
-### Backend Production Setup
-1. Set `FLASK_ENV=production` in environment variables
-2. Use production-grade WSGI server like Gunicorn
-3. Configure MySQL for production with proper credentials
-4. Set strong JWT secret key
-5. Enable HTTPS
+See `docs-index.html` for complete list of test accounts with passwords.
 
-### Frontend Production Build
-```bash
-cd frontend
-npm run build
-```
+---
 
-## 📝 Environment Variables
-
-### Backend (.env)
-```
-FLASK_ENV=development
-DATABASE_URL=mysql://medigen_user:medigen_password@localhost/medigen_db
-JWT_SECRET_KEY=your-super-secret-jwt-key-change-this-in-production
-JWT_ACCESS_TOKEN_EXPIRES=3600
-JWT_REFRESH_TOKEN_EXPIRES=2592000
-```
-
-## 🎯 Key Technologies
-
-### Backend Stack
-- **Flask** - Lightweight Python web framework
-- **SQLAlchemy** - ORM for database operations
-- **Flask-JWT-Extended** - JWT authentication
-- **Flask-CORS** - Cross-origin resource sharing
-- **bcrypt** - Password hashing
-- **MySQL** - Relational database
-
-### Frontend Stack
-- **React** - Modern JavaScript UI library
-- **React Router** - Client-side routing
-- **Modern CSS** - Gradients, animations, responsive design
-- **Fetch API** - HTTP client for API calls
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-1. **Database Connection Error**
-   - Verify MySQL is running
-   - Check database credentials in .env file
-   - Ensure database and user exist
-
-2. **JWT Token Errors**
-   - Check JWT_SECRET_KEY is set
-   - Verify token expiration settings
-   - Clear browser localStorage if needed
-
-3. **CORS Errors**
-   - Ensure Flask CORS is properly configured
-   - Check frontend API base URL matches backend
-
-4. **React Router Not Working**
-   - Verify react-router-dom is installed
-   - Check routing configuration in App.js
-
-## 📞 Support
-
-For technical support or questions about the implementation, please refer to the comprehensive code documentation within each component and API endpoint.
-
-## 🏃‍♂️ Quick Start
-
-1. **Setup Database**: Create MySQL database and user
-2. **Start Backend**: `cd backend && python run.py`
-3. **Start Frontend**: `cd frontend && npm start`
-4. **Login**: Use demo credentials at `http://localhost:3000`
-
-The system is now ready for development and testing!
+**For detailed setup, API reference, and integration examples, open [docs-index.html](docs-index.html) in your browser.**
