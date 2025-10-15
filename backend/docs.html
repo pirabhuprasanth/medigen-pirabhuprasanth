@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediGen API Documentation - Backend</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 0;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .nav-menu {
+            background: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            sticky: top;
+            top: 20px;
+        }
+
+        .nav-menu h3 {
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .nav-menu ul {
+            list-style: none;
+        }
+
+        .nav-menu ul li {
+            margin: 8px 0;
+        }
+
+        .nav-menu a {
+            color: #667eea;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: block;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        .nav-menu a:hover {
+            background: #f0f0f0;
+            padding-left: 15px;
+        }
+
+        .section {
+            background: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .endpoint {
+            background: #f9f9f9;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .endpoint h3 {
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .method {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            color: white;
+        }
+
+        .method.get { background: #61affe; }
+        .method.post { background: #49cc90; }
+        .method.put { background: #fca130; }
+        .method.delete { background: #f93e3e; }
+
+        .endpoint-path {
+            font-family: 'Courier New', monospace;
+            background: #e8e8e8;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-size: 0.95rem;
+        }
+
+        .endpoint-desc {
+            margin: 15px 0;
+            color: #666;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .code-block .comment { color: #6a9955; }
+        .code-block .string { color: #ce9178; }
+        .code-block .keyword { color: #569cd6; }
+        .code-block .function { color: #dcdcaa; }
+        .code-block .number { color: #b5cea8; }
+
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        .param-table th,
+        .param-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .param-table th {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+
+        .param-table tr:hover {
+            background: #f5f5f5;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .badge.required { background: #f93e3e; color: white; }
+        .badge.optional { background: #fca130; color: white; }
+        .badge.auth { background: #764ba2; color: white; }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .warning-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .success-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .response-example {
+            margin: 15px 0;
+        }
+
+        .response-example h4 {
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🏥 MediGen API Documentation</h1>
+            <p>Comprehensive Backend API Reference for Pharmaceutical E-commerce Platform</p>
+            <p><strong>Base URL:</strong> http://localhost:5000/api</p>
+            <p><strong>Version:</strong> 1.0.0</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="nav-menu">
+            <h3>📑 Quick Navigation</h3>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#authentication">Authentication</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#reviews">Reviews</a></li>
+                <li><a href="#orders">Orders</a></li>
+                <li><a href="#categories">Categories & Manufacturers</a></li>
+                <li><a href="#error-handling">Error Handling</a></li>
+                <li><a href="#rate-limiting">Rate Limiting</a></li>
+            </ul>
+        </div>
+
+        <!-- OVERVIEW SECTION -->
+        <section id="overview" class="section">
+            <h2>📖 Overview</h2>
+            <p>The MediGen API is a RESTful API built with Flask that provides comprehensive pharmaceutical product management, user authentication, and e-commerce functionality.</p>
+            
+            <div class="info-box">
+                <strong>🔐 Authentication:</strong> Most endpoints require JWT (JSON Web Token) authentication. Include the token in the Authorization header:
+                <div class="code-block">Authorization: Bearer &lt;your_access_token&gt;</div>
+            </div>
+
+            <div class="warning-box">
+                <strong>⚠️ CORS:</strong> The API allows requests from http://localhost:3000. For production, update CORS_ORIGINS in config.py
+            </div>
+
+            <h3>Tech Stack</h3>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Flask 3.1.2</li>
+                <li>SQLAlchemy 2.0.44</li>
+                <li>Flask-JWT-Extended 4.7.1</li>
+                <li>MySQL via PyMySQL</li>
+                <li>Flask-CORS 6.0.1</li>
+            </ul>
+        </section>
+
+        <!-- AUTHENTICATION SECTION -->
+        <section id="authentication" class="section">
+            <h2>🔐 Authentication Endpoints</h2>
+
+            <!-- LOGIN -->
+            <div class="endpoint">
+                <h3>
+                    <span class="method post">POST</span>
+                    <span>User Login</span>
+                </h3>
+                <div class="endpoint-path">/api/login</div>
+                <p class="endpoint-desc">Authenticate user and receive JWT tokens</p>
+
+                <h4>Request Body:</h4>
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>username</code></td>
+                            <td>string</td>
+                            <td><span class="badge required">Required</span></td>
+                            <td>Username or email address</td>
+                        </tr>
+                        <tr>
+                            <td><code>password</code></td>
+                            <td>string</td>
+                            <td><span class="badge required">Required</span></td>
+                            <td>User password</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Example Request (Python):</h4>
+                <div class="code-block"><span class="keyword">import</span> requests
+
+url = <span class="string">"http://localhost:5000/api/login"</span>
+payload = {
+    <span class="string">"username"</span>: <span class="string">"testuser"</span>,
+    <span class="string">"password"</span>: <span class="string">"password123"</span>
+}
+
+response = requests.<span class="function">post</span>(url, json=payload)
+data = response.<span class="function">json</span>()
+
+<span class="comment"># Store tokens</span>
+access_token = data[<span class="string">"access_token"</span>]
+refresh_token = data[<span class="string">"refresh_token"</span>]</div>
+
+                <h4>Example Request (JavaScript):</h4>
+                <div class="code-block"><span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'http://localhost:5000/api/login'</span>, {
+    method: <span class="string">'POST'</span>,
+    headers: {
+        <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>
+    },
+    body: <span class="function">JSON.stringify</span>({
+        username: <span class="string">'testuser'</span>,
+        password: <span class="string">'password123'</span>
+    })
+});
+
+<span class="keyword">const</span> data = <span class="keyword">await</span> response.<span class="function">json</span>();
+
+<span class="comment">// Store tokens in localStorage</span>
+localStorage.<span class="function">setItem</span>(<span class="string">'access_token'</span>, data.access_token);
+localStorage.<span class="function">setItem</span>(<span class="string">'refresh_token'</span>, data.refresh_token);</div>
+
+                <h4>Success Response (200 OK):</h4>
+                <div class="code-block">{
+    <span class="string">"access_token"</span>: <span class="string">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."</span>,
+    <span class="string">"refresh_token"</span>: <span class="string">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."</span>,
+    <span class="string">"message"</span>: <span class="string">"Login successful"</span>,
+    <span class="string">"user"</span>: {
+        <span class="string">"id"</span>: <span class="number">2</span>,
+        <span class="string">"username"</span>: <span class="string">"testuser"</span>,
+        <span class="string">"email"</span>: <span class="string">"test@example.com"</span>,
+        <span class="string">"first_name"</span>: <span class="string">"Test"</span>,
+        <span class="string">"last_name"</span>: <span class="string">"User"</span>,
+        <span class="string">"is_active"</span>: <span class="keyword">true</span>
+    }
+}</div>
+
+                <h4>Error Response (401 Unauthorized):</h4>
+                <div class="code-block">{
+    <span class="string">"error"</span>: <span class="string">"Invalid username or password"</span>
+}</div>
+            </div>
+
+            <!-- REGISTER -->
+            <div class="endpoint">
+                <h3>
+                    <span class="method post">POST</span>
+                    <span>User Registration</span>
+                </h3>
+                <div class="endpoint-path">/api/register</div>
+                <p class="endpoint-desc">Register a new user account</p>
+
+                <h4>Request Body:</h4>
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>username</code></td>
+                            <td>string</td>
+                            <td><span class="badge required">Required</span></td>
+                            <td>Unique username</td>
+                        </tr>
+                        <tr>
+                            <td><code>email</code></td>
+                            <td>string</td>
+                            <td><span class="badge required">Required</span></td>
+                            <td>Valid email address</td>
+                        </tr>
+                        <tr>
+                            <td><code>password</code></td>
+                            <td>string</td>
+                            <td><span class="badge required">Required</span></td>
+                            <td>Password (min 6 characters)</td>
+                        </tr>
+                        <tr>
+                            <td><code>first_name</code></td>
+                            <td>string</td>
+                            <td><span class="badge optional">Optional</span></td>
+                            <td>User's first name</td>
+                        </tr>
+                        <tr>
+                            <td><code>last_name</code></td>
+                            <td>string</td>
+                            <td><span class="badge optional">Optional</span></td>
+                            <td>User's last name</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Example Request (JavaScript):</h4>
+                <div class="code-block"><span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'http://localhost:5000/api/register'</span>, {
+    method: <span class="string">'POST'</span>,
+    headers: { <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span> },
+    body: <span class="function">JSON.stringify</span>({
+        username: <span class="string">'newuser'</span>,
+        email: <span class="string">'newuser@example.com'</span>,
+        password: <span class="string">'securepass123'</span>,
+        first_name: <span class="string">'John'</span>,
+        last_name: <span class="string">'Doe'</span>
+    })
+});
+
+<span class="keyword">const</span> data = <span class="keyword">await</span> response.<span class="function">json</span>();</div>
+
+                <h4>Success Response (201 Created):</h4>
+                <div class="code-block">{
+    <span class="string">"message"</span>: <span class="string">"User registered successfully"</span>,
+    <span class="string">"user"</span>: {
+        <span class="string">"id"</span>: <span class="number">4</span>,
+        <span class="string">"username"</span>: <span class="string">"newuser"</span>,
+        <span class="string">"email"</span>: <span class="string">"newuser@example.com"</span>,
+        <span class="string">"first_name"</span>: <span class="string">"John"</span>,
+        <span class="string">"last_name"</span>: <span class="string">"Doe"</span>
+    }
+}</div>
+            </div>
+
+            <!-- REFRESH TOKEN -->
+            <div class="endpoint">
+                <h3>
+                    <span class="method post">POST</span>
+                    <span>Refresh Access Token</span>
+                    <span class="badge auth">Auth Required</span>
+                </h3>
+                <div class="endpoint-path">/api/refresh</div>
+                <p class="endpoint-desc">Get a new access token using refresh token</p>
+
+                <h4>Headers:</h4>
+                <div class="code-block">Authorization: Bearer &lt;refresh_token&gt;</div>
+
+                <h4>Example Request (JavaScript):</h4>
+                <div class="code-block"><span class="keyword">const</span> refreshToken = localStorage.<span class="function">getItem</span>(<span class="string">'refresh_token'</span>);
+
+<span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'http://localhost:5000/api/refresh'</span>, {
+    method: <span class="string">'POST'</span>,
+    headers: {
+        <span class="string">'Authorization'</span>: <span class="string">`Bearer ${refreshToken}`</span>
+    }
+});
+
+<span class="keyword">const</span> data = <span class="keyword">await</span> response.<span class="function">json</span>();
+localStorage.<span class="function">setItem</span>(<span class="string">'access_token'</span>, data.access_token);</div>
+
+                <h4>Success Response (200 OK):</h4>
+                <div class="code-block">{
+    <span class="string">"access_token"</span>: <span class="string">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."</span>
+}</div>
+            </div>
+
+            <!-- LOGOUT -->
+            <div class="endpoint">
+                <h3>
+                    <span class="method post">POST</span>
+                    <span>User Logout</span>
+                    <span class="badge auth">Auth Required</span>
+                </h3>
+                <div class="endpoint-path">/api/logout</div>
+                <p class="endpoint-desc">Logout user (client-side token clearing)</p>
+
+                <h4>Success Response (200 OK):</h4>
+                <div class="code-block">{
+    <span class="string">"message"</span>: <span class="string">"Successfully logged out"</span>
+}</div>
+            </div>
+
+            <!-- GET PROFILE -->
+            <div class="endpoint">
+                <h3>
+                    <span class="method get">GET</span>
+                    <span>Get User Profile</span>
+                    <span class="badge auth">Auth Required</span>
+                </h3>
+                <div class="endpoint-path">/api/profile</div>
+                <p class="endpoint-desc">Get current authenticated user's profile</p>
+
+                <h4>Example Request (JavaScript):</h4>
+                <div class="code-block"><span class="keyword">const</span> token = localStorage.<span class="function">getItem</span>(<span class="string">'access_token'</span>);
+
+<span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'http://localhost:5000/api/profile'</span>, {
+    headers: {
+        <span class="string">'Authorization'</span>: <span class="string">`Bearer ${token}`</span>
+    }
+});
+
+<span class="keyword">const</span> data = <span class="keyword">await</span> response.<span class="function">json</span>();</div>
+
+                <h4>Success Response (200 OK):</h4>
+                <div class="code-block">{
+    <span class="string">"user"</span>: {
+        <span class="string">"id"</span>: <span class="number">2</span>,
+        <span class="string">"username"</span>: <span class="string">"testuser"</span>,
+        <span class="string">"email"</span>: <span class="string">"test@example.com"</span>,
+        <span class="string">"first_name"</span>: <span class="string">"Test"</span>,
+        <span class="string">"last_name"</span>: <span class="string">"User"</span>,
+        <span class="string">"is_active"</span>: <span class="keyword">true</span>
+    }
+}</div>
+            </div>
+        </section>
+
+        <!-- PRODUCTS SECTION -->
+        <section id="products" class="section">
+            <h2>🛍️ Product Endpoints</h2>
+
+            <!-- GET PRODUCT DETAILS -->
+            <div class="endpoint">
+                <h3>
+                    <span class="method get">GET</span>
+                    <span>Get Product Details</span>
+                    <span class="badge auth">Auth Required</span>
+                </h3>
+                <div class="endpoint-path">/api/product/{product_id}</div>
+                <p class="endpoint-desc">Fetch comprehensive product data including salts, substitutes, FAQs, and reviews</p>
+
+                <h4>Path Parameters:</h4>
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>product_id</code></td>
+                            <td>integer</td>
+                            <td>Product ID</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Example Request (JavaScript):</h4>
+                <div class="code-block"><span class="keyword">const</span> token = localStorage.<span class="function">getItem</span>(<span class="string">'access_token'</span>);
+<span class="keyword">const</span> productId = <span class="number">1</span>;
+
+<span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">`http://localhost:5000/api/product/${productId}`</span>, {
+    headers: {
+        <span class="string">'Authorization'</span>: <span class="string">`Bearer ${token}`</span>
+    }
+});
+
+<span class="keyword">const</span> data = <span class="keyword">await</span> response.<span class="function">json</span>();</div>
+
+                <h4>Success Response (200 OK):</h4>
+                <div class="code-block">{
+    <span class="string">"product_details"</span>: {
+        <span class="string">"id"</span>: <span class="number">1</span>,
+        <span class="string">"name"</span>: <span class="string">"UDILIV 300MG TABLET 15'S"</span>,
+        <span class="string">"price"</span>: <span class="number">34.0</span>,
+        <span class="string">"mrp"</span>: <span class="number">40.0</span>,
+        <span class="string">"discount_percentage"</span>: <span class="number">15.0</span>,
+        <span class="string">"description_general"</span>: <span class="string">"Medicine for gallstones..."</span>,
+        <span class="string">"manufacturer"</span>: <span class="string">"Abbott Healthcare"</span>,
+        <span class="string">"category"</span>: <span class="string">"Digestive Health"</span>,
+        <span class="string">"prescription_required"</span>: <span class="keyword">true</span>,
+        <span class="string">"stock_quantity"</span>: <span class="number">100</span>
+    },
+    <span class="string">"salt_content"</span>: [
+        {
+            <span class="string">"salt_name"</span>: <span class="string">"Ursodeoxycholic Acid"</span>,
+            <span class="string">"strength"</span>: <span class="string">"300mg"</span>,
+            <span class="string">"percentage"</span>: <span class="number">100.0</span>
+        }
+    ],
+    <span class="string">"substitutes"</span>: [
+        {
+            <span class="string">"id"</span>: <span class="number">3</span>,
+            <span class="string">"name"</span>: <span class="string">"Similar Medicine"</span>,
+            <span class="string">"price"</span>: <span class="number">32.0</span>,
+            <span class="string">"similarity_score"</span>: <span class="number">0.8</span>
+        }
+    ],
+    <span class="string">"faqs"</span>: [
+        {
+            <span class="string">"question"</span>: <span class="string">"How to use?"</span>,
+            <span class="string">"answer"</span>: <span class="string">"Take as prescribed..."</span>
+        }
+    ],
+    <span class="string">"reviews"</span>: [],
+    <span class="string">"average_rating"</span>: <span class="number">4.5</span>,
+    <span class="string">"total_reviews"</span>: <span class="number">12</span>
+}</div>
+            </div>
+
+            <!-- GET ALL PRODUCTS -->
+            <div class="endpoint">
+                <h3>
+                    <span class="method get">GET</span>
+                    <span>Get All Products</span>
+                    <span class="badge auth">Auth Required</span>
+                </h3>
+                <div class="endpoint-path">/api/products</div>
+                <p class="endpoint-desc">Get paginated list of products with optional filters</p>
+
+                <h4>Query Parameters:</h4>
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>page</code></td>
+                            <td>integer</td>
+                            <td><span class="badge optional">Optional</span></td>
+                            <td>Page number (default: 1)</td>
+                        </tr>
+                        <tr>
+                            <td><code>per_page</code></td>
+                            <td>integer</td>
+                            <td><span class="badge optional">Optional</span></td>
+                            <td>Items per page (default: 20)</td>
+                        </tr>
+                        <tr>
+                            <td><code>search</code></td>
+                            <td>string</td>
+                            <td><span class="badge optional">Optional</span></td>
+                            <td>Search in name/description</td>
+                        </tr>
+                        <tr>
+                            <td><code>category_id</code></td>
+                            <td>integer</td>
+                            <td><span class="badge optional">Optional</span></td>
+                            <td>Filter by category</td>
+                        </tr>
+                        <tr>
+                            <td><code>manufacturer_id</code></td>
+                            <td>integer</td>
+                            <td><span class="badge optional">Optional</span></td>
+                            <td>Filter by manufacturer</td>
+                        </tr>
+                        <tr>
+                            <td><code>min_price</code></td>
+                            <td>float</td>
+                            <td><span class="badge optional">Optional</span></td>
+                            <td>Minimum price</td>
+                        </tr>
+                        <tr>
+                            <td><code>max_price</code></td>
+                            <td>float</td>
+                            <td><span class="badge optional">Optional</span></td>
+                            <td>Maximum price</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Example Request (JavaScript):</h4>
+                <div class="code-block"><span class="keyword">const</span> token = localStorage.<span class="function">getItem</span>(<span class="string">'access_token'</span>);
+<span class="keyword">const</span> params = <span class="keyword">new</span> <span class="function">URLSearchParams</span>({
+    page: <span class="number">1</span>,
+    per_page: <span class="number">10</span>,
+    category_id: <span class="number">1</span>,
+    min_price: <span class="number">20</span>,
+    max_price: <span class="number">50</span>
+});
+
+<span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">`http://localhost:5000/api/products?${params}`</span>, {
+    headers: {
+        <span class="string">'Authorization'</span>: <span class="string">`Bearer ${token}`</span>
+    }
+});
+
+<span class="keyword">const</span> data = <span class="keyword">await</span> response.<span class="function">json</span>();</div>
+
+                <h4>Success Response (200 OK):</h4>
+                <div class="code-block">{
+    <span class="string">"products"</span>: [
+        {
+            <span class="string">"id"</span>: <span class="number">1</span>,
+            <span class="string">"name"</span>: <span class="string">"UDILIV 300MG TABLET"</span>,
+            <span class="string">"price"</span>: <span class="number">34.0</span>,
+            <span class="string">"manufacturer"</span>: <span class="string">"Abbott Healthcare"</span>
+        }
+    ],
+    <span class="string">"pagination"</span>: {
+        <span class="string">"page"</span>: <span class="number">1</span>,
+        <span class="string">"per_page"</span>: <span class="number">10</span>,
+        <span class="string">"total"</span>: <span class="number">25</span>,
+        <span class="string">"pages"</span>: <span class="number">3</span>,
+        <span class="string">"has_next"</span>: <span class="keyword">true</span>,
+        <span class="string">"has_prev"</span>: <span class="keyword">false</span>
+    }
+}</div>
+            </div>
+
+            <!-- SEARCH PRODUCTS -->
+            <div class="endpoint">
+                <h3>
+                    <span class="method get">GET</span>
+                    <span>Search Products</span>
+                    <span class="badge auth">Auth Required</span>
+                </h3>
+                <div class="endpoint-path">/api/search</div>
+                <p class="endpoint-desc">Advanced product search across products, salts, and manufacturers</p>
+
+                <h4>Query Parameters:</h4>
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>q</code></td>
+                            <td>string</td>
+                            <td><span class="badge required">Required</span></td>
+                            <td>Search query</td>
+                        </tr>
+                        <tr>
+                            <td><code>page</code></td>
+                            <td>integer</td>
+                            <td><span class="badge optional">Optional</span></td>
+                            <td>Page number</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Example Request (JavaScript):</h4>
+                <div class="code-block"><span class="keyword">const</span> token = localStorage.<span class="function">getItem</span>(<span class="string">'access_token'</span>);
+<span class="keyword">const</span> searchQuery = <span class="string">'paracetamol'</span>;
+
+<span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(
+    <span class="string">`http://localhost:5000/api/search?q=${searchQuery}`</span>,
+    {
+        headers: { <span class="string">'Authorization'</span>: <span class="string">`Bearer ${token}`</span> }
+    }
+);
+
+<span class="keyword">const</span> data = <span class="keyword">await</span> response.<span class="function">json</span>();</div>
+            </div>
+        </section>
+
+        <!-- REVIEWS SECTION -->
+        <section id="reviews" class="section">
+            <h2>⭐ Review Endpoints</h2>
+
+            <!-- GET PRODUCT REVIEWS -->
+            <div class="endpoint">
+                <h3>
+                    <span class="method get">GET</span>
+                    <span>Get Product Reviews</span>
+                    <span class="badge auth">Auth Required</span>
+                </h3>
+                <div class="endpoint-path">/api/product/{product_id}/reviews</div>
+                <p class="endpoint-desc">Get paginated reviews for a specific product</p>
+
+                <h4>Example Request (JavaScript):</h4>
+                <div class="code-block"><span class="keyword">const</span> token = localStorage.<span class="function">getItem</span>(<span class="string">'access_token'</span>);
+<span class="keyword">const</span> productId = <span class="number">1</span>;
+
+<span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(
+    <span class="string">`http://localhost:5000/api/product/${productId}/reviews?page=1&per_page=10`</span>,
+    {
+        headers: { <span class="string">'Authorization'</span>: <span class="string">`Bearer ${token}`</span> }
+    }
+);
+
+<span class="keyword">const</span> data = <span class="keyword">await</span> response.<span class="function">json</span>();</div>
+            </div>
+
+            <!-- ADD PRODUCT REVIEW -->
+            <div class="endpoint">
+                <h3>
+                    <span class="method post">POST</span>
+                    <span>Add Product Review</span>
+                    <span class="badge auth">Auth Required</span>
+                </h3>
+                <div class="endpoint-path">/api/product/{product_id}/reviews</div>
+                <p class="endpoint-desc">Add a new review for a product</p>
+
+                <h4>Request Body:</h4>
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>rating</code></td>
+                            <td>integer</td>
+                            <td><span class="badge required">Required</span></td>
+                            <td>Rating (1-5)</td>
+                        </tr>
+                        <tr>
+                            <td><code>comment</code></td>
+                            <td>string</td>
+                            <td><span class="badge required">Required</span></td>
+                            <td>Review text</td>
+                        </tr>
+                        <tr>
+                            <td><code>title</code></td>
+                            <td>string</td>
+                            <td><span class="badge optional">Optional</span></td>
+                            <td>Review title</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Example Request (JavaScript):</h4>
+                <div class="code-block"><span class="keyword">const</span> token = localStorage.<span class="function">getItem</span>(<span class="string">'access_token'</span>);
+<span class="keyword">const</span> productId = <span class="number">1</span>;
+
+<span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(
+    <span class="string">`http://localhost:5000/api/product/${productId}/reviews`</span>,
+    {
+        method: <span class="string">'POST'</span>,
+        headers: {
+            <span class="string">'Authorization'</span>: <span class="string">`Bearer ${token}`</span>,
+            <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>
+        },
+        body: <span class="function">JSON.stringify</span>({
+            rating: <span class="number">5</span>,
+            title: <span class="string">'Excellent product'</span>,
+            comment: <span class="string">'Works great, highly recommended!'</span>
+        })
+    }
+);
+
+<span class="keyword">const</span> data = <span class="keyword">await</span> response.<span class="function">json</span>();</div>
+            </div>
+        </section>
+
+        <!-- ORDERS SECTION -->
+        <section id="orders" class="section">
+            <h2>📦 Order Endpoints</h2>
+
+            <!-- CREATE ORDER -->
+            <div class="endpoint">
+                <h3>
+                    <span class="method post">POST</span>
+                    <span>Create Order</span>
+                    <span class="badge auth">Auth Required</span>
+                </h3>
+                <div class="endpoint-path">/api/orders</div>
+                <p class="endpoint-desc">Create a new order</p>
+
+                <h4>Request Body:</h4>
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>items</code></td>
+                            <td>array</td>
+                            <td><span class="badge required">Required</span></td>
+                            <td>Order items</td>
+                        </tr>
+                        <tr>
+                            <td><code>shipping_address</code></td>
+                            <td>string</td>
+                            <td><span class="badge optional">Optional</span></td>
+                            <td>Delivery address</td>
+                        </tr>
+                        <tr>
+                            <td><code>payment_method</code></td>
+                            <td>string</td>
+                            <td><span class="badge optional">Optional</span></td>
+                            <td>Payment method (default: COD)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Example Request (JavaScript):</h4>
+                <div class="code-block"><span class="keyword">const</span> token = localStorage.<span class="function">getItem</span>(<span class="string">'access_token'</span>);
+
+<span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'http://localhost:5000/api/orders'</span>, {
+    method: <span class="string">'POST'</span>,
+    headers: {
+        <span class="string">'Authorization'</span>: <span class="string">`Bearer ${token}`</span>,
+        <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>
+    },
+    body: <span class="function">JSON.stringify</span>({
+        items: [
+            { product_id: <span class="number">1</span>, quantity: <span class="number">2</span> },
+            { product_id: <span class="number">3</span>, quantity: <span class="number">1</span> }
+        ],
+        shipping_address: <span class="string">'123 Main St, City, State 12345'</span>,
+        payment_method: <span class="string">'COD'</span>
+    })
+});
+
+<span class="keyword">const</span> data = <span class="keyword">await</span> response.<span class="function">json</span>();</div>
+
+                <h4>Success Response (201 Created):</h4>
+                <div class="code-block">{
+    <span class="string">"message"</span>: <span class="string">"Order created successfully"</span>,
+    <span class="string">"order"</span>: {
+        <span class="string">"id"</span>: <span class="number">1</span>,
+        <span class="string">"order_number"</span>: <span class="string">"ORD-A1B2C3D4"</span>,
+        <span class="string">"total_amount"</span>: <span class="number">102.0</span>,
+        <span class="string">"status"</span>: <span class="string">"pending"</span>
+    }
+}</div>
+            </div>
+
+            <!-- GET USER ORDERS -->
+            <div class="endpoint">
+                <h3>
+                    <span class="method get">GET</span>
+                    <span>Get User Orders</span>
+                    <span class="badge auth">Auth Required</span>
+                </h3>
+                <div class="endpoint-path">/api/orders</div>
+                <p class="endpoint-desc">Get current user's order history</p>
+
+                <h4>Example Request (JavaScript):</h4>
+                <div class="code-block"><span class="keyword">const</span> token = localStorage.<span class="function">getItem</span>(<span class="string">'access_token'</span>);
+
+<span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'http://localhost:5000/api/orders'</span>, {
+    headers: {
+        <span class="string">'Authorization'</span>: <span class="string">`Bearer ${token}`</span>
+    }
+});
+
+<span class="keyword">const</span> data = <span class="keyword">await</span> response.<span class="function">json</span>();</div>
+            </div>
+        </section>
+
+        <!-- CATEGORIES SECTION -->
+        <section id="categories" class="section">
+            <h2>📂 Categories & Manufacturers</h2>
+
+            <!-- GET CATEGORIES -->
+            <div class="endpoint">
+                <h3>
+                    <span class="method get">GET</span>
+                    <span>Get All Categories</span>
+                </h3>
+                <div class="endpoint-path">/api/categories</div>
+                <p class="endpoint-desc">Get list of all product categories (no auth required)</p>
+
+                <h4>Example Request (JavaScript):</h4>
+                <div class="code-block"><span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'http://localhost:5000/api/categories'</span>);
+<span class="keyword">const</span> data = <span class="keyword">await</span> response.<span class="function">json</span>();</div>
+            </div>
+
+            <!-- GET MANUFACTURERS -->
+            <div class="endpoint">
+                <h3>
+                    <span class="method get">GET</span>
+                    <span>Get All Manufacturers</span>
+                </h3>
+                <div class="endpoint-path">/api/manufacturers</div>
+                <p class="endpoint-desc">Get list of all manufacturers (no auth required)</p>
+
+                <h4>Example Request (JavaScript):</h4>
+                <div class="code-block"><span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'http://localhost:5000/api/manufacturers'</span>);
+<span class="keyword">const</span> data = <span class="keyword">await</span> response.<span class="function">json</span>();</div>
+            </div>
+        </section>
+
+        <!-- ERROR HANDLING SECTION -->
+        <section id="error-handling" class="section">
+            <h2>⚠️ Error Handling</h2>
+
+            <p>All endpoints return consistent error responses:</p>
+
+            <h3>Common HTTP Status Codes:</h3>
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Status Code</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>200</code></td>
+                        <td>OK - Request succeeded</td>
+                    </tr>
+                    <tr>
+                        <td><code>201</code></td>
+                        <td>Created - Resource created successfully</td>
+                    </tr>
+                    <tr>
+                        <td><code>400</code></td>
+                        <td>Bad Request - Invalid request parameters</td>
+                    </tr>
+                    <tr>
+                        <td><code>401</code></td>
+                        <td>Unauthorized - Authentication required or failed</td>
+                    </tr>
+                    <tr>
+                        <td><code>404</code></td>
+                        <td>Not Found - Resource not found</td>
+                    </tr>
+                    <tr>
+                        <td><code>500</code></td>
+                        <td>Internal Server Error - Server error occurred</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Error Response Format:</h3>
+            <div class="code-block">{
+    <span class="string">"error"</span>: <span class="string">"Error message"</span>,
+    <span class="string">"details"</span>: <span class="string">"Additional error details (optional)"</span>
+}</div>
+
+            <h3>JWT Authentication Errors:</h3>
+            <div class="code-block"><span class="comment">// Expired token</span>
+{
+    <span class="string">"error"</span>: <span class="string">"Token has expired"</span>,
+    <span class="string">"message"</span>: <span class="string">"Please login again"</span>
+}
+
+<span class="comment">// Invalid token</span>
+{
+    <span class="string">"error"</span>: <span class="string">"Invalid token"</span>,
+    <span class="string">"message"</span>: <span class="string">"Please provide a valid token"</span>
+}
+
+<span class="comment">// Missing token</span>
+{
+    <span class="string">"error"</span>: <span class="string">"Authorization required"</span>,
+    <span class="string">"message"</span>: <span class="string">"Please login to access this resource"</span>
+}</div>
+        </section>
+
+        <!-- RATE LIMITING SECTION -->
+        <section id="rate-limiting" class="section">
+            <h2>🚦 Rate Limiting</h2>
+
+            <div class="info-box">
+                <strong>Current Implementation:</strong> No rate limiting is currently enforced in development mode. For production, consider implementing rate limiting using Flask-Limiter.
+            </div>
+
+            <h3>Recommended Production Settings:</h3>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Authentication endpoints: 5 requests per minute</li>
+                <li>Search endpoints: 20 requests per minute</li>
+                <li>Standard endpoints: 60 requests per minute</li>
+            </ul>
+        </section>
+
+        <!-- TEST CREDENTIALS -->
+        <section class="section">
+            <h2>🔐 Test Credentials</h2>
+            
+            <div class="success-box">
+                <h3>Available Test Accounts:</h3>
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Password</th>
+                            <th>Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>testuser</code></td>
+                            <td><code>password123</code></td>
+                            <td>Regular User</td>
+                        </tr>
+                        <tr>
+                            <td><code>admin</code></td>
+                            <td><code>password123</code></td>
+                            <td>Administrator</td>
+                        </tr>
+                        <tr>
+                            <td><code>john_doe</code></td>
+                            <td><code>password123</code></td>
+                            <td>Regular User</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 MediGen Pharmaceuticals. All rights reserved.</p>
+            <p>API Version 1.0.0 | Last Updated: October 15, 2025</p>
+        </div>
+    </footer>
+</body>
+</html>
